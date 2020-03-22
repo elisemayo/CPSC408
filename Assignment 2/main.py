@@ -8,7 +8,7 @@ from DatabaseCRUD import CRUD
 from Menu import Menu
 
 if __name__ == "__main__":
-    crud = CRUD("C:\\Users\\elise may\\Documents\\CPSC_Courses\\CPSC408\\Assignment 2\\StudentDB.sqlite")
+    crud = CRUD("StudentDB.sqlite")
     menu = Menu()
 
     while True:
