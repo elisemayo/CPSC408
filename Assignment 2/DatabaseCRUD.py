@@ -7,6 +7,7 @@
 import sqlite3
 from Student import Student
 
+
 class CRUD:
     def __init__(self, db):
         # connect to database
@@ -14,15 +15,15 @@ class CRUD:
         self.c = self.conn.cursor()
 
         # create student table
-        # self.c.execute("CREATE TABLE IF NOT EXISTS Student("
-        #             "StudentId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-        #             "FirstName VARCHAR(32) NOT NULL,"
-        #             "LastName VARCHAR(32) NOT NULL,"
-        #             "GPA NUMERIC NOT NULL,"
-        #             "Major VARCHAR(16) NOT NULL,"
-        #             "FacultyAdvisor VARCHAR(32),"
-        #             "isDeleted SMALLINT)"
-        #             ");")
+        self.c.execute("CREATE TABLE IF NOT EXISTS Student("
+                       "StudentId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                       "FirstName VARCHAR(32) NOT NULL,"
+                       "LastName VARCHAR(32) NOT NULL,"
+                       "GPA NUMERIC NOT NULL,"
+                       "Major VARCHAR(16) NOT NULL,"
+                       "FacultyAdvisor VARCHAR(32),"
+                       "isDeleted SMALLINT)"
+                       ";")
         self.conn.commit()
 
     def display(self):
@@ -70,7 +71,7 @@ class CRUD:
         # write to database
         student = Student(FirstName, LastName, GPA, Major, FacultyAdvisor, isDeleted)
         self.c.execute("INSERT INTO Student(FirstName, LastName, GPA, Major, FacultyAdvisor, isDeleted) "
-                        "VALUES(?,?,?,?,?,?);", student.getValues())
+                       "VALUES(?,?,?,?,?,?);", student.getValues())
         self.conn.commit()
         print("Student record created.")
 
