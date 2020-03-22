@@ -6,6 +6,7 @@ CPSC 408
 Assignment 2: SQLite CRUD Application
 
 Import pandas was not working so that is why my records are printing out ugly. :)
+Also my computer is stupid and requires that I use the absolute path in my connection. :(
 
 References:
 stackoverflow.com
