@@ -26,7 +26,7 @@ class CRUD:
         self.conn.commit()
 
     def display(self):
-        self.c.execute('SELECT * FROM Student')
+        self.c.execute('SELECT * FROM Student WHERE isDeleted = 0')
         all_rows = self.c.fetchall()
         print(all_rows)
 
@@ -74,16 +74,104 @@ class CRUD:
         self.conn.commit()
         print("Student record created.")
 
-    # def update(self):
-    #     # update
-    #
-    # def delete(self):
-    #     # delete
-    #
-    # def search(self):
-    #     # search
+    def update(self):
+        studID = input("Student ID: ")
+        select = ""
+        # validate student ID input
+        while self.validateID(studID) != True:
+            print("Invalid entry. Student ID must be numeric.")
+            studID = input("Student ID: ")
+        # validate whether student is in database
+        studID = int(studID)
 
-    #validate inputs to account for spaces
+        if self.validateStudent(studID) is True:
+            while True:
+                select = input("Would you like to update the student's major or faculty advisor?\n"
+                               "Type 'Major' or 'Advisor': ")
+                if select.lower() == 'major':
+                    select = "Major"
+                    break
+                elif select.lower() == 'advisor':
+                    select = "FacultyAdvisor"
+                    break
+                else:
+                    print("Invalid option. Try again.")
+            update = input("Enter the new value: ")
+
+            # write to database
+            self.c.execute("UPDATE Student SET {0} = '{1}' WHERE StudentId = {2};".format(select, update, studID))
+            self.conn.commit()
+            print("UPDATE COMPLETE")
+        else:
+            print("UPDATE FAILED")
+
+    def delete(self):
+        studID = input("Student ID: ")
+        # validate student ID input
+        while self.validateID(studID) != True:
+            print("Invalid entry. Student ID must be numeric.")
+            studID = input("Student ID: ")
+
+        if self.validateStudent(studID) is True:
+            self.c.execute("UPDATE Student SET isDeleted = ? WHERE StudentId = ?", (1, studID,))
+            self.conn.commit()
+            print("DELETE COMPLETE")
+        else:
+            print("DELETE FAILED")
+
+    def search(self):
+        while True:
+            select = input("Search by:\n"
+                           "Major\n"
+                           "GPA\n"
+                           "Faculty Advisor\n"
+                           "Type 'Major', 'GPA', or 'Advisor': ")
+            if select.lower() == 'major':
+                select = "Major"
+                break
+            elif select.lower() == 'gpa':
+                select = "GPA"
+                break
+            elif select.lower() == 'advisor':
+                select = "FacultyAdvisor"
+                break
+            else:
+                print("Invalid option. Try again.")
+
+        search = input("Enter search term: ")
+        # validating search terms and retrieving data
+        if select == "Major":
+            while self.validate(search) != True:
+                print("Invalid syntax. Try again.")
+                search = input("Enter search term: ")
+            self.c.execute('SELECT * FROM Student WHERE isDeleted = 0 AND Major = ?', (search,))
+            all_rows = self.c.fetchall()
+            if len(all_rows) == 0:
+                print("No records found.")
+            else:
+                print(all_rows)
+        elif select == "GPA":
+            while self.validateGPA(search) != True:
+                print("Invalid syntax. Try again.")
+                search = input("Enter search term: ")
+            self.c.execute('SELECT * FROM Student WHERE isDeleted = 0 AND GPA = ?', (search,))
+            all_rows = self.c.fetchall()
+            if len(all_rows) == 0:
+                print("No records found.")
+            else:
+                print(all_rows)
+        elif select == "FacultyAdvisor":
+            while self.validate(search) != True:
+                print("Invalid syntax. Try again.")
+                search = input("Enter search term: ")
+            self.c.execute('SELECT * FROM Student WHERE isDeleted = 0 AND FacultyAdvisor = ?', (search,))
+            all_rows = self.c.fetchall()
+            if len(all_rows) == 0:
+                print("No records found.")
+            else:
+                print(all_rows)
+
+    # validate inputs to account for spaces
     def validate(self, input):
         if all(i.isalpha() or i.isspace() for i in input):
             isValid = True
@@ -97,3 +185,20 @@ class CRUD:
         else:
             isValid = False
         return isValid
+
+    def validateID(self, input):
+        if all(i.isdecimal() for i in input):
+            isValid = True
+        else:
+            isValid = False
+        return isValid
+
+    def validateStudent(self, studID):
+        self.c.execute("SELECT StudentID FROM Student WHERE StudentId = ?",
+                       (studID,))
+        data = self.c.fetchall()
+        if len(data) > 0:
+            return True
+        else:
+            print("Student not found.")
+            return False
