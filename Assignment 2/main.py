@@ -19,11 +19,11 @@ if __name__ == "__main__":
             crud.display()
         elif action == 2:
             crud.create()
-        # elif action == 3:
-        #     crud.update()
-        # elif action == 4:
-        #     crud.delete()
-        # elif action == 5:
-        #     crud.search()
+        elif action == 3:
+            crud.update()
+        elif action == 4:
+            crud.delete()
+        elif action == 5:
+            crud.search()
         elif action == 6:
             break
