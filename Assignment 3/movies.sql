@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS UserInfo(UserID INT PRIMARY KEY AUTO_INCREMENT,
 -- user ratings (movieID, UserID, Rating, UserMood)
 CREATE TABLE IF NOT EXISTS UserRating(MovieID INT,
                         -- FOREIGN KEY (MovieID) REFERENCES MovieInfo(MovieID),
-                        UserID INT PRIMARY KEY,
+                        UserID INT,
                         -- FOREIGN KEY (UserID) REFERENCES UserInfo(UserID),
                         Rating TINYINT,
                         UserMood VARCHAR(32));
