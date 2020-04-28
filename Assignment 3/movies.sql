@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS MovieInfo(MovieID INT PRIMARY KEY AUTO_INCREMENT,
                         Actor1 VARCHAR(32),
                         Actor2 VARCHAR(32),
                         Actor3 VARCHAR(32),
-                        Mood VARCHAR(32), #select statement top count of UserMood from UserRating group by movieID
-                        UserRatings TINYINT); #select statement average of Rating from UserRating
+                        Mood VARCHAR(32), 
+                        UserRatings TINYINT);
 
 -- user info (UserID, firstName, lastName)
 CREATE TABLE IF NOT EXISTS UserInfo(UserID INT PRIMARY KEY AUTO_INCREMENT,
