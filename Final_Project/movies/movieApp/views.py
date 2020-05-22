@@ -183,8 +183,7 @@ def WatchedView(request):
 
 def RateView(request):
     user = request.user.id
-    # rating = request.POST.get('rating')
-    rating = 5
+    rating = request.POST.get('rating')
     try:
         with connection.cursor() as cursor:
             cursor.execute(
