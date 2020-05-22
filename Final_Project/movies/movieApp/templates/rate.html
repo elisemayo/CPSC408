@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+<html lang="en">
+{% block page_content %}
+<body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="col-lg-9 mx-auto text-white text-center">
+  <h1 class="display-4">Tell us what you thought.</h1>
+  <p class="lead mb-0">Rate the movie from 1-5 stars.</p>
+</div>
+  <br>
+<form name="rate" action="{% url 'watched' %}" method="POST">
+{% csrf_token %}
+			<div class="col-lg-9 mx-auto text-white text-center">
+		  	<div class="form-group mb-4">
+			<div class="col-lg-9 mx-auto text-white text-center">
+			  <select name="rating" class="form-control form-control-underlined border-info" style="width: 500px;" required>
+				<option value="" selected disabled>Rating</option>
+				<option>1 star</option>
+				<option>2 stars</option>
+				<option>3 stars</option>
+				<option>4 stars</option>
+				<option>5 stars</option>
+			  </select>
+			</div>
+			</div>
+		  <button type="submit">Submit</button>
+		  </div>
+ </form>
+  </body>
+{% endblock %}
+</html>
